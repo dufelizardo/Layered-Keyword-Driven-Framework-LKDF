@@ -12,7 +12,7 @@
 
 ---
 
-## 👁️ Repository Activity
+## Repository Activity
 
 [![Visitors](https://visitor-badge.laobi.icu/badge?page_id=LKDF.framework)]()
 [![GitHub stars](https://img.shields.io/github/stars/your-org/LKDF?style=social)]()
@@ -69,7 +69,7 @@ graph TD
     style API_Adapter fill:#4682b4,stroke:#27408b,color:#fff
 ```
 
-### O Modelo Mental das Camadas
+### 1.1 O Modelo Mental das Camadas
 
 * **`TEST` = Variação:** Provedor da informação. Gerencia e injeta a massa de dados dinâmicos e imutáveis em tempo de execução (*Data-Driven*). **Custo de código novo: $O(0)$.**
 * **`SCENARIO` = Estrutura:** O esqueleto gramatical. Define a ordem cronológica e declarativa da jornada do usuário através de palavras-chave, sem conter lógica ou dados fixos.
@@ -91,7 +91,7 @@ Para garantir a integridade do design durante revisões de código (*Code Review
 
 ---
 
-## 2.1 Exemplo Prático de Implementação (Python)
+## 3.0 Exemplo Prático de Implementação (Python)
 
 Abaixo está a representação de um sistema de Login mapeado segundo os padrões arquiteturais do LKDF:
 
@@ -167,7 +167,7 @@ def test_autenticacao_sucesso_corporativo(driver_instance):
 ```
 
 ---
-## 2.2 Architectural Constraints & Enforcement Rules (Governança e Restrições)
+## 4.0 Architectural Constraints & Enforcement Rules (Governança e Restrições)
 
 O LKDF deixa de ser apenas um guia de boas práticas e se torna um **framework de engenharia impositivo (*enforceable*)** através da aplicação de restrições arquiteturais automatizadas. Para evitar a erosão do código sob pressão de prazos, as seguintes regras são absolutas e auditadas via pipeline de CI/CD:
 
@@ -185,14 +185,14 @@ O LKDF deixa de ser apenas um guia de boas práticas e se torna um **framework d
 
 ```
 
-### 2.3 As Quatro Proibições Absolutas:
+### 4.1 As Quatro Proibições Absolutas:
 
 1. **Nenhuma camada pode importar ou conhecer uma camada superior:** O fluxo de acoplamento é estritamente descendente (`TEST` $\rightarrow$ `SCENARIO` $\rightarrow$ `FLOW` $\rightarrow$ `POM`). Um `import` em sentido inverso quebra a previsibilidade e causa rejeição automática no Code Review.
 2. **A camada `SCENARIO` está terminantemente proibida de chamar a camada `POM`:** Cenários gerenciam a gramática macro do negócio. Eles não podem realizar *bypass* (pular) a camada inteligente de `FLOW` para tocar em seletores ou execuções técnicas diretamente.
 3. **A camada `FLOW` não pode acessar o driver de automação ou primitivas de rede:** O fluxo processa lógica e asserções funcionais sobre parâmetros puramente abstratos. O acesso físico ao navegador (Playwright/Selenium), requisições HTTP ou conexões SQL é monopólio exclusivo do `POM`.
 4. **A camada `TEST` não pode conter estruturas de decisão algorítmica ou asserções corporativas:** Arquivos de teste servem unicamente como injetores de massa de dados imutáveis (*Data Providers*). Condicionais (`if/else`), laços de repetição personalizados ou validações de negócio não pertencem a este nível.
 
-### 2.4 Mecanismo de Imposição Automatizada (Guardrails no CI/CD)
+### 4.2 Mecanismo de Imposição Automatizada (Guardrails no CI/CD)
 
 Para garantir que estas regras sejam respeitadas sem depender da análise humana, o framework utiliza análise estática de dependências via `import-linter`. O arquivo de configuração `.importlinter` na raiz do projeto bloqueia fisicamente desvios arquiteturais:
 
@@ -217,11 +217,11 @@ containers =
 
 ---
 
-## 2.5 Runtime Execution Model (O Motor de Execução do Sistema)
+## 5.0 Runtime Execution Model (O Motor de Execução do Sistema)
 
 Para compreender como o LKDF se comporta na prática, é preciso entender a mecânica da **Engine Mental de Execução**. O framework opera dividindo o ciclo de vida do teste em duas fases distintas na memória: a **Fase de Carga (Data Binding)** e a **Fase de Impacto (Execution Pipeline)**.
 
-### 2.6 O Ciclo de Vida em 5 Etapas Detalhadas:
+### 5.1 O Ciclo de Vida em 5 Etapas Detalhadas:
 
 1. **Memory Allocation & Data Ingestion (Fase TEST):**
 O Test Runner (ex: Pytest) inicia a execução e aloca em memória a matriz de dados declarada (dicionários, JSON, etc.). Nenhuma inteligência técnica foi disparada ainda. O dado está isolado no topo.
@@ -235,7 +235,7 @@ O `FLOW` aciona as funções atômicas da camada `POM`. O objeto de página atua
 Os comandos físicos batem contra a aplicação real (interface gráfica, endpoints de API ou tabelas de banco). O sistema sob teste (SUT) reage, e a resposta bruta faz o caminho inverso pelo barramento para que as asserções preparadas na etapa 3 validem o comportamento final.
 ---
 
-## 3.0 Governança e Guardrails de Código (CI/CD)
+## 6.0 Governança e Guardrails de Código (CI/CD)
 
 A sustentabilidade do LKDF é garantida por barreiras automatizadas. Para evitar a erosão arquitetural (como desenvolvedores colocando lógicas de negócio no POM ou pulando camadas), este repositório utiliza o `import-linter` integrado ao pipeline de CI/CD.
 
@@ -251,7 +251,7 @@ Se um arquivo violar a árvore de dependências estrutural, o pipeline falhará 
 
 ---
 
-## 4.0 Benefícios e ROI do Projeto
+## 7.0 Benefícios e ROI do Projeto
 
 * **Centralização Total de Manutenções:** Alterações visuais alteram apenas a camada `POM` ($O(1)$). Alterações de regras de produto alteram apenas a camada `FLOW`.
 * **Escalabilidade Linear:** Evita o crescimento exponencial de scripts tradicionais. O esforço acumulado de código é mantido sob controle linear e previsível.
@@ -260,7 +260,7 @@ Se um arquivo violar a árvore de dependências estrutural, o pipeline falhará 
 
 ---
 
-## 5.0 Documentação Completa
+## 8.0 Documentação Completa
 
 Para compreender os fundamentos teóricos (ISO 29148, ISO 25010), análises assintóticas matemáticas Big-O e casos complexos de uso, consulte o nosso **[WHITEPAPER.md](WHITEPAPER.md)** oficial disponível na raiz deste repositório.
 

@@ -12,7 +12,7 @@
 
 ---
 
-## 👁️ Repository Activity
+## Repository Activity
 
 [![Visitors](https://visitor-badge.laobi.icu/badge?page_id=LKDF.framework)]()
 [![GitHub stars](https://img.shields.io/github/stars/your-org/LKDF?style=social)]()
@@ -25,7 +25,7 @@ By fusing classical **Clean Architecture** core tenets with the industry's most 
 
 ---
 
-## 🚀 Architectural Overview
+## 1.0 Architectural Overview
 
 Unlike traditional, tightly coupled approaches where test data, business logic, and UI selectors share the same physical file, LKDF organizes the automation system into four concentric domains. 
 
@@ -79,7 +79,7 @@ graph TD
 
 ---
 
-## ⚖️ Responsibility Assignment Matrix
+## 2.0 Responsibility Assignment Matrix
 
 To maintain design integrity during peer Code Reviews, every code change must match the following matrix constraints exactly:
 
@@ -92,7 +92,7 @@ To maintain design integrity during peer Code Reviews, every code change must ma
 
 ---
 
-## 🛠️ Practical Implementation Example (Python)
+## 3.0 Practical Implementation Example (Python)
 
 Below is an authentication system implementation displaying how data binds and flows through the four decoupled layers of the LKDF:
 
@@ -186,7 +186,7 @@ def test_successful_corporate_authentication(driver_instance):
 
 ---
 
-## 🚫 Architectural Constraints & Enforcement Rules
+## 4.0 Architectural Constraints & Enforcement Rules
 
 LKDF transcends standard boilerplate guidelines by acting as an **enforceable engineering framework** through automated static analysis guardrails. To defeat architectural erosion during high-pressure sprint cycles, the following structural constraints are absolute:
 
@@ -204,14 +204,14 @@ LKDF transcends standard boilerplate guidelines by acting as an **enforceable en
 
 ```
 
-### 🚫 The Four Absolute Structural Prohibitions:
+### 4.1 The Four Absolute Structural Prohibitions:
 
 1. **No Layer May Import or Reference a Higher Layer:** Code coupling is strictly downward-linear (`TEST` $\rightarrow$ `SCENARIO` $\rightarrow$ `FLOW` $\rightarrow$ `POM`). Any reverse import or vertical coupling instantly triggers a static code failure.
 2. **The `SCENARIO` Layer is Strictly Forbidden from Invoking the `POM` Layer:** Scenarios handle high-level business grammar. Bypassing the logical orchestration of the `FLOW` layer to trigger low-level selectors directly breaks the system's encapsulation boundaries.
 3. **The `FLOW` Layer May Not Access Driver Elements or Low-Level Network Clients:** Flows compute business logic and functional assertions using abstract, strongly typed primitive variables. Direct browser engine access (Selenium/Playwright driver instances), raw HTTP requests, or raw database connections are a monopoly of the `POM` layer.
 4. **The `TEST` Layer May Not Contain Algorithmic Control Flow or Domain Assertions:** Test files serve exclusively as immutable data ingestion entry points (*Data Providers*). Conditional branching (`if/else`), data loops, and system state validations do not belong in this layer.
 
-### 🛠️ Automated Guardrails (CI/CD Quality Gates)
+### 4.2 Automated Guardrails (CI/CD Quality Gates)
 
 To guarantee strict rule conformity without manual overhead, the codebase runs static import verification via `import-linter`. Any commit or Pull Request that attempts to break layer isolation will fail the automated build step via the following `.importlinter` configuration file:
 
@@ -236,7 +236,7 @@ containers =
 
 ---
 
-## 🔄 Runtime Execution Model
+## 5.0 Runtime Execution Model
 
 The internal runtime mechanics of LKDF split the execution lifecycle into two memory-isolated states: the **Data Binding Phase** and the **Impact Pipeline**.
 
@@ -254,7 +254,7 @@ The internal runtime mechanics of LKDF split the execution lifecycle into two me
 
 ```
 
-### The 5-Stage Automation Lifecycle
+### 5.1 The 5-Stage Automation Lifecycle
 
 1. **Memory Allocation & Data Ingestion (`TEST` Phase):**
 The Test Runner allocates the raw data configuration (JSON, dictionaries, YAML) in memory. No automation mechanics are initialized; the dataset is isolated at the edge.
@@ -269,7 +269,7 @@ The engine triggers downstream interactions with the real application environmen
 
 ---
 
-## 📈 Enterprise Value & ROI
+## 6.0 Enterprise Value & ROI
 
 * **Centralized Maintenance Matrix:** Frontend refactorings and layout updates require isolated modifications *exclusively* inside the `POM` layer ($O(1)$ complexity). Business logic evolution requires code modifications *exclusively* in the `FLOW` layer.
 * **Asymptotically Linear Complexity:** Halts the traditional $O(N^2)$ exponential cost spike seen in script-heavy test repositories, flattening the long-term maintenance cost to a predictable, highly parallelizable $O(N)$ trend line.
@@ -278,7 +278,7 @@ The engine triggers downstream interactions with the real application environmen
 
 ---
 
-## 📝 Technical Deep Dive
+## 7.0 Technical Deep Dive
 
 For an exhaustive analysis covering the academic foundations (ISO 29148, ISO 25010), Big-O asymptotic cost evaluations, and complex multi-system workflow implementation guides, review the complete **[WHITEPAPER.md](https://www.google.com/search?q=WHITEPAPER.md)** document located in the root repository folder.
 
