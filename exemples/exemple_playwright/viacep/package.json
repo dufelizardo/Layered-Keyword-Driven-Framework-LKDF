@@ -1,0 +1,14 @@
+{
+    "name": "lkdf-viacep-playwright",
+    "version": "1.0.0",
+    "description": "LKDF (Layered Keyword-Driven Framework) example - ViaCEP API tests using Playwright Test (TypeScript).",
+    "private": true,
+    "scripts": {
+        "test": "playwright test"
+    },
+    "devDependencies": {
+        "@playwright/test": "^1.47.0",
+        "@types/node": "^22.5.0",
+        "typescript": "^5.5.4"
+    }
+}

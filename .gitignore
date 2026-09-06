@@ -2,3 +2,8 @@
 log.html
 output.xml
 report.html
+
+# Node / Playwright (regenerated on every run/install, never source)
+node_modules/
+playwright-report/
+test-results/
