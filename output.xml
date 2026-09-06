@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.4.2 (Python 3.12.10 on win32)" generated="2026-09-06T07:45:55.601007" rpa="false" schemaversion="5">
+<suite id="s1" name="US-002" source="c:\dev\Poject\Layered-Keyword-Driven-Framework-LKDF\exemples\exemple_robot_framework\petstore_api_v_3_1\test\put_petstore\US-002.robot">
+<test id="s1-t1" name="CT-005 - US-002: Validate PUT Update Pet - HTTP 500 INTERNAL SERVER ERROR" line="47">
+<kw name="PET - UPDATE - PUT" owner="put_petstore_scenario">
+<kw name="Pet - Update - PUT - By HTTP Status Code" owner="put_petstore_flow">
+<kw name="Run Keyword If" owner="BuiltIn">
+<kw name="PUT Update Pet - Status Code 500" owner="put_petstore_flow">
+<kw name="Build Flexible Update Pet PUT Payload" owner="put_petstore_flow">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-09-06T07:45:56.086783" level="INFO">${category} = {'id': '0', 'name': 'string'}</msg>
+<var>${category}</var>
+<arg>id=0</arg>
+<arg>name=string</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-09-06T07:45:56.085772" elapsed="0.006756"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-09-06T07:45:56.094326" level="INFO">${tag} = {'id': '0', 'name': 'string'}</msg>
+<var>${tag}</var>
+<arg>id=0</arg>
+<arg>name=string</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-09-06T07:45:56.092949" elapsed="0.001377"/>
+</kw>
+<kw name="Create List" owner="BuiltIn">
+<msg time="2026-09-06T07:45:56.095377" level="INFO">${tags} = [{'id': '0', 'name': 'string'}]</msg>
+<var>${tags}</var>
+<arg>${tag}</arg>
+<doc>Returns a list containing given items.</doc>
+<status status="PASS" start="2026-09-06T07:45:56.095377" elapsed="0.001249"/>
+</kw>
+<kw name="Create List" owner="BuiltIn">
+<msg time="2026-09-06T07:45:56.097633" level="INFO">${photo_urls} = ['string']</msg>
+<var>${photo_urls}</var>
+<arg>string</arg>
+<doc>Returns a list containing given items.</doc>
+<status status="PASS" start="2026-09-06T07:45:56.096626" elapsed="0.001517"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-09-06T07:45:56.099157" level="INFO">${pet_details_category} = {'id': '0', 'name': 'string'}</msg>
+<var>${pet_details_category}</var>
+<arg>id=0</arg>
+<arg>name=string</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-09-06T07:45:56.098143" elapsed="0.002018"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-09-06T07:45:56.101163" level="INFO">${pet_details} = {'id': '10', 'category': {'id': '0', 'name': 'string'}, 'tag': {'id': '0', 'name': 'string'}}</msg>
+<var>${pet_details}</var>
+<arg>id=10</arg>
+<arg>category=${pet_details_category}</arg>
+<arg>tag=${tag}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-09-06T07:45:56.100161" elapsed="0.002342"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-09-06T07:45:56.103654" level="INFO">${base} = {'id': '0', 'category': {'id': '0', 'name': 'string'}, 'name': 'doggie', 'photoUrls': ['string'], 'tags': [{'id': '0', 'name': 'string'}], 'status': 'available', 'availableInstances': '7', 'petDetails...</msg>
+<var>${base}</var>
+<arg>id=0</arg>
+<arg>category=${category}</arg>
+<arg>name=doggie</arg>
+<arg>photoUrls=${photo_urls}</arg>
+<arg>tags=${tags}</arg>
+<arg>status=available</arg>
+<arg>availableInstances=7</arg>
+<arg>petDetailsId=10</arg>
+<arg>petDetails=${pet_details}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-09-06T07:45:56.102503" elapsed="0.001151"/>
+</kw>
+<if>
+<branch type="IF" condition="'${custom_fields}' == '${EMPTY}'">
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-09-06T07:45:56.108526" level="INFO">${payload} = {'id': '0', 'category': {'id': '0', 'name': 'string'}, 'name': 'doggie', 'photoUrls': ['string'], 'tags': [{'id': '0', 'name': 'string'}], 'status': 'available', 'availableInstances': '7', 'petDetails...</msg>
+<var>${payload}</var>
+<arg>${base}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-09-06T07:45:56.105926" elapsed="0.002600"/>
+</kw>
+<status status="PASS" start="2026-09-06T07:45:56.104927" elapsed="0.003599"/>
+</branch>
+<branch type="ELSE">
+<kw name="Evaluate" owner="BuiltIn">
+<var>${payload}</var>
+<arg>dict(${base}, **${custom_fields})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="NOT RUN" start="2026-09-06T07:45:56.109526" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2026-09-06T07:45:56.109526" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2026-09-06T07:45:56.104927" elapsed="0.005611"/>
+</if>
+<return>
+<value>${payload}</value>
+<status status="PASS" start="2026-09-06T07:45:56.110538" elapsed="0.000000"/>
+</return>
+<msg time="2026-09-06T07:45:56.111523" level="INFO">${payload} = {'id': '0', 'category': {'id': '0', 'name': 'string'}, 'name': 'doggie', 'photoUrls': ['string'], 'tags': [{'id': '0', 'name': 'string'}], 'status': 'available', 'availableInstances': '7', 'petDetails...</msg>
+<var>${payload}</var>
+<arg>${custom_fields}</arg>
+<doc>Builds a flexible PUT payload for updating a pet.</doc>
+<status status="PASS" start="2026-09-06T07:45:56.085772" elapsed="0.026760"/>
+</kw>
+<kw name="Call PUT Update Pet" owner="put_petstore_flow">
+<kw name="PUT Update Pet" owner="put_petstore_pom">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2026-09-06T07:45:56.114525" level="INFO">Creating Session using : alias=nomeapp, url=https://petstore3.swagger.io, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>nomeapp</arg>
+<arg>${HOST_URL}</arg>
+<arg>verify=False</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2026-09-06T07:45:56.114525" elapsed="0.002002"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2026-09-06T07:45:56.118537" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<var>${headers}</var>
+<arg>Content-Type=${CONTENT_TYPE}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2026-09-06T07:45:56.116527" elapsed="0.003137"/>
+</kw>
+<kw name="PUT On Session" owner="RequestsLibrary">
+<msg time="2026-09-06T07:45:57.069089" level="INFO">PUT Request : url=https://petstore3.swagger.io/api/v3/pet 
+ path_url=/api/v3/pet 
+ headers={'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '319'} 
+ body=b'{"id": "0", "category": {"id": "0", "name": "string"}, "name": "doggie", "photoUrls": ["string"], "tags": [{"id": "0", "name": "string"}], "status": "available", "availableInstances": "7", "petDetailsId": "10", "petDetails": {"id": "10", "category": {"id": "0", "name": "string"}, "tag": {"id": "0", "name": "string"}}}' 
+ </msg>
+<msg time="2026-09-06T07:45:57.069089" level="INFO">PUT Response : url=https://petstore3.swagger.io/api/v3/pet 
+ status=500, reason=Internal Server Error 
+ headers={'Date': 'Sun, 06 Sep 2026 10:45:57 GMT', 'Content-Type': 'application/json', 'Content-Length': '110', 'Connection': 'keep-alive', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT', 'Access-Control-Allow-Headers': 'Content-Type, api_key, Authorization', 'Access-Control-Expose-Headers': 'Content-Disposition', 'Server': 'Jetty(9.4.53.v20231009)'} 
+ body={"code":500,"message":"There was an error processing your request. It has been logged (ID: 66396a3c12f21bfd)"} 
+ </msg>
+<msg time="2026-09-06T07:45:57.069089" level="INFO">C:\Users\eofo\AppData\Local\Programs\Python\Python312\Lib\site-packages\urllib3\connectionpool.py:1110: InsecureRequestWarning: Unverified HTTPS request is being made to host 'petstore3.swagger.io'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(</msg>
+<msg time="2026-09-06T07:45:57.070484" level="INFO">${response} = &lt;Response [500]&gt;</msg>
+<var>${response}</var>
+<arg>nomeapp</arg>
+<arg>${BASE_URL}${ENDPOINT}</arg>
+<arg>json=${payload}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=ANY</arg>
+<doc>Sends a PUT request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2026-09-06T07:45:56.119664" elapsed="0.951901"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-09-06T07:45:57.074082" level="INFO">500</msg>
+<arg>${response.status_code}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-09-06T07:45:57.071565" elapsed="0.003647"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-09-06T07:45:57.079679" level="INFO">{"code":500,"message":"There was an error processing your request. It has been logged (ID: 66396a3c12f21bfd)"}</msg>
+<arg>${response.text}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-09-06T07:45:57.077252" elapsed="0.002427"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-09-06T07:45:57.079679" elapsed="0.001005"/>
+</return>
+<msg time="2026-09-06T07:45:57.081676" level="INFO">${response} = &lt;Response [500]&gt;</msg>
+<var>${response}</var>
+<arg>${payload}</arg>
+<doc>Sends a PUT request to update a pet and verifies the response.</doc>
+<status status="PASS" start="2026-09-06T07:45:56.113529" elapsed="0.968147"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-09-06T07:45:57.081676" elapsed="0.000000"/>
+</return>
+<msg time="2026-09-06T07:45:57.082694" level="INFO">${response} = &lt;Response [500]&gt;</msg>
+<var>${response}</var>
+<arg>${payload}</arg>
+<doc>Calls the PUT Update Pet keyword from the POM.</doc>
+<status status="PASS" start="2026-09-06T07:45:56.112532" elapsed="0.970162"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2026-09-06T07:45:57.084954" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>500</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2026-09-06T07:45:57.083846" elapsed="0.002110"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" start="2026-09-06T07:45:57.085956" elapsed="0.001006"/>
+</return>
+<arg>${meuPet}</arg>
+<status status="PASS" start="2026-09-06T07:45:56.084771" elapsed="1.002191"/>
+</kw>
+<arg>'${meuHTTP}' == '200'</arg>
+<arg>PUT Update Pet - Status Code 200</arg>
+<arg>${meuPet}</arg>
+<arg>ELSE IF</arg>
+<arg>'${meuHTTP}' == '400'</arg>
+<arg>PUT Update Pet - Status Code 400</arg>
+<arg>${meuPet}</arg>
+<arg>ELSE IF</arg>
+<arg>'${meuHTTP}' == '404'</arg>
+<arg>PUT Update Pet - Status Code 404</arg>
+<arg>${meuPet}</arg>
+<arg>ELSE IF</arg>
+<arg>'${meuHTTP}' == '405'</arg>
+<arg>PUT Update Pet - Status Code 405</arg>
+<arg>${meuPet}</arg>
+<arg>ELSE IF</arg>
+<arg>'${meuHTTP}' == '500'</arg>
+<arg>PUT Update Pet - Status Code 500</arg>
+<arg>${meuPet}</arg>
+<arg>ELSE</arg>
+<arg>Fail</arg>
+<arg>HTTP status code '${meuHTTP}' is not supported for PUT Update Pet test scenario.</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" start="2026-09-06T07:45:56.083759" elapsed="1.003203"/>
+</kw>
+<arg>${meuPet}</arg>
+<arg>${meuHTTP}</arg>
+<doc>This keyword executes the appropriate PUT Update Pet test scenario based on the provided HTTP
+status code.</doc>
+<status status="PASS" start="2026-09-06T07:45:56.082572" elapsed="1.005393"/>
+</kw>
+<arg>${EMPTY}</arg>
+<arg>500</arg>
+<doc>Cenário de teste para o endpoint de atualização de Pet.</doc>
+<status status="PASS" start="2026-09-06T07:45:56.080888" elapsed="1.007077"/>
+</kw>
+<doc>Test case to validate the PUT update pet endpoint with HTTP 500 INTERNAL SERVER ERROR response.</doc>
+<tag>HTTP500</tag>
+<tag>PUT</tag>
+<tag>UpdatePet</tag>
+<status status="PASS" start="2026-09-06T07:45:56.080888" elapsed="1.022172"/>
+</test>
+<meta name="Project">Layered Keyword Driven Framework (LKDF)</meta>
+<meta name="Test Suite - US-002"/>
+<meta name="Test Suite Created On">2026-09-05</meta>
+<meta name="Test Suite Description">This test suite validates the PUT update pet endpoint of the Petstore API.</meta>
+<meta name="Test Suite Last Modified">XXXX-XX-XX</meta>
+<meta name="Test Suite Owner">Eduardo Felizardo Candido</meta>
+<meta name="Test Suite Tags">PUT    UpdatePet    PetstoreAPI    US-002</meta>
+<meta name="Test Suite Version">1.0</meta>
+<status status="PASS" start="2026-09-06T07:45:55.617531" elapsed="1.503741"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="1" fail="0" skip="0">HTTP500</stat>
+<stat pass="1" fail="0" skip="0">PUT</stat>
+<stat pass="1" fail="0" skip="0">UpdatePet</stat>
+</tag>
+<suite>
+<stat name="US-002" id="s1" pass="1" fail="0" skip="0">US-002</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
