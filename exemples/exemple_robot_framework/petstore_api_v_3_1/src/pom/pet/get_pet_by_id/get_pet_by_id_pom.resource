@@ -1,30 +1,21 @@
 *** Settings ***
-Library    RequestsLibrary
-#Library    JsonLibrary
+Resource    ../../common/petstore_v31_common.resource
 # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
 *** Comments ***
 # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
 *** Variables ***
-${HOST_URL}        https://petstore3.swagger.io
-${BASE_URL}        /api/v3
-${ENDPOINT}        /pet
-${CONTENT_TYPE}    application/json
+${ENDPOINT}    /pet
 # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
 *** Keywords ***
-PUT Update Pet
-    [Documentation]    Sends a PUT request to update a pet and verifies the response.
-    [Arguments]    ${payload}
+GET Get Pet By Id
+    [Documentation]    Sends a GET request to fetch a pet by its id and returns the response.
+    [Arguments]    ${pet_id}
     # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
-    Create Session    nomeapp    ${HOST_URL}    verify=False
+    Get Petstore V31 Session
 
-    ${headers}=    Create Dictionary
-    ...    Content-Type=${CONTENT_TYPE}
-
-    ${response}=    PUT On Session
-    ...    nomeapp
-    ...    ${BASE_URL}${ENDPOINT}
-    ...    json=${payload}
-    ...    headers=${headers}
+    ${response}=    GET On Session
+    ...    petstore_v31_session
+    ...    ${BASE_URL}${ENDPOINT}/${pet_id}
     ...    expected_status=ANY
 
     Log    ${response.status_code}

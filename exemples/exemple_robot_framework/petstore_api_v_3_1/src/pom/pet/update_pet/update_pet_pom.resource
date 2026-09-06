@@ -1,13 +1,32 @@
 *** Settings ***
-Resource    ../../flow/put/put_petstore_flow.resource
+Resource    ../../common/petstore_v31_common.resource
 # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
 *** Comments ***
 # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Variables ***
+${ENDPOINT}        /pet
+${CONTENT_TYPE}    application/json
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
 *** Keywords ***
-PET - UPDATE - PUT
-    [Documentation]    Cenário de teste para o endpoint de atualização de Pet.
-    [Arguments]    ${meuPet}    ${meuHTTP}
+PUT Update Pet
+    [Documentation]    Sends a PUT request to update a pet and returns the response.
+    [Arguments]    ${payload}
     # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
-    Pet - Update - PUT - By HTTP Status Code    ${meuPet}    ${meuHTTP}
+    Get Petstore V31 Session
+
+    ${headers}=    Create Dictionary
+    ...    Content-Type=${CONTENT_TYPE}
+
+    ${response}=    PUT On Session
+    ...    petstore_v31_session
+    ...    ${BASE_URL}${ENDPOINT}
+    ...    json=${payload}
+    ...    headers=${headers}
+    ...    expected_status=ANY
+
+    Log    ${response.status_code}
+    Log    ${response.text}
+
+    RETURN    ${response}
     # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
 # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
