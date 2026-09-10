@@ -1,0 +1,18 @@
+*** Settings ***
+Resource    ../../../flow/<<story-group>>/<<story>>/<<story>>_flow.resource
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Comments ***
+    SCENARIO TEMPLATE — UI. Copy to src/scenario/<<story-group>>/<<story>>/<<story>>_scenario.resource.
+    Identical shape to the API version: one keyword, one line, no logic. Name it so it cannot normalize
+    to the same name as any POM keyword in this chain (`agent/ARCHITECTURE.md` §3).
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Keywords ***
+<<STORY>> - <<ACTION>>
+    [Documentation]    Pure pass-through to the FLOW dispatcher. Zero logic.
+    [Arguments]    ${scenario}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    ${result}=    <<Story>> By Scenario    scenario=${scenario}
+
+    RETURN    ${result}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════

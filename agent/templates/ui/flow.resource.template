@@ -1,0 +1,57 @@
+*** Settings ***
+Resource    ../../../pom/<<story-group>>/<<story>>/<<story>>_pom.resource
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Comments ***
+    FLOW TEMPLATE — UI. Copy to src/flow/<<story-group>>/<<story>>/<<story>>_flow.resource. This is
+    where the sequence of POM actions AND the assertion of the resulting page state both live — the
+    UI equivalent of an API FLOW's status-code + schema assertion.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Keywords ***
+<<Story>> - Success
+    [Documentation]    Happy-path sequence: fill the form, submit, assert the resulting page state.
+    [Arguments]    ${<<field_1>>}=<<default value>>    ${<<field_2>>}=<<default value>>
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    Fill <<Field 1>> Field    ${<<field_1>>}
+    Fill <<Field 2>> Field    ${<<field_2>>}
+    Click <<Button>>
+    Wait For <<Result Element>>
+
+    ${current_url}=    Get Location
+    Should Contain    ${current_url}    <<expected-success-path>>
+
+    RETURN    ${current_url}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+<<Story>> - Invalid <<Field>>
+    [Documentation]    Negative case: an invalid <<field>>, expects the on-page error state, not navigation.
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    Fill <<Field 1>> Field    <<invalid value, grounded in a real constraint>>
+    Fill <<Field 2>> Field    <<valid value>>
+    Click <<Button>>
+    Wait For <<Result Element>>
+
+    ${error_text}=    Get <<Result Element>> Text
+    Should Contain    ${error_text}    <<expected error message fragment>>
+
+    RETURN    ${error_text}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+# ── The dispatcher — every story gets exactly one, this is what SCENARIO calls ───────────────────────────────────────
+<<Story>> By Scenario
+    [Documentation]    Dispatches to the FLOW keyword matching ${scenario}. Only implement a scenario here
+    ...    if it has a genuine, reachable trigger — see `agent/IMPLEMENTATION.md` Step 3.
+    [Arguments]    ${scenario}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    IF    '${scenario}' == 'success'
+        ${result}=    <<Story>> - Success
+    ELSE IF    '${scenario}' == 'invalid_<<field>>'
+        ${result}=    <<Story>> - Invalid <<Field>>
+    ELSE
+        Fail    Unknown scenario: ${scenario}
+    END
+
+    RETURN    ${result}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════

@@ -1,0 +1,79 @@
+*** Settings ***
+Resource    ../../common/<<api_name>>_common.resource
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Comments ***
+    POM TEMPLATE — API. Copy to src/pom/<<resource-group>>/<<operation>>/<<operation>>_pom.resource.
+    Below are 4 request-shape patterns — keep only the ONE matching your operation and delete the rest.
+    Every keyword here is a raw technical call only: no assertions, ever. `expected_status=ANY` is not
+    optional — deciding whether a status is success/failure is FLOW's job, not this layer's.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Variables ***
+${ENDPOINT}    /<<resource-path>>
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Keywords ***
+# ── PATTERN 1: simple GET by a path parameter (e.g. GET /widgets/{id}) ──────────────────────────────────────────────
+GET <<Operation Name>>
+    [Documentation]    Sends a GET request to fetch a <<resource>> by its id and returns the response.
+    [Arguments]    ${<<id_param>>}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    Get <<Api Name>> Session
+
+    ${response}=    GET On Session
+    ...    <<api_name>>_session
+    ...    ${BASE_URL}${ENDPOINT}/${<<id_param>>}
+    ...    expected_status=ANY
+
+    RETURN    ${response}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+# ── PATTERN 2: GET with query parameters — filtering/pagination (e.g. GET /widgets?page=1&pageSize=20) ───────────────
+GET <<Operation Name>>
+    [Documentation]    Sends a GET request with query parameters to list <<resource>>s and returns the response.
+    [Arguments]    ${params}=${EMPTY}    ${headers}=${EMPTY}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    Get <<Api Name>> Session
+
+    ${response}=    GET On Session
+    ...    <<api_name>>_session
+    ...    ${BASE_URL}${ENDPOINT}
+    ...    params=${params}    headers=${headers}    expected_status=ANY
+
+    RETURN    ${response}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+# ── PATTERN 3: POST or PUT with a JSON body (e.g. POST /widgets, PUT /widgets) ────────────────────────────────────────
+POST <<Operation Name>>
+    [Documentation]    Sends a POST request with a JSON body to create a <<resource>> and returns the response.
+    [Arguments]    ${body}    ${headers}=${EMPTY}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    Get <<Api Name>> Session
+
+    ${response}=    POST On Session
+    ...    <<api_name>>_session
+    ...    ${BASE_URL}${ENDPOINT}
+    ...    json=${body}    headers=${headers}    expected_status=ANY
+
+    RETURN    ${response}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+# ── PATTERN 4: multipart file upload (e.g. POST /upload-file/{id}) ────────────────────────────────────────────────────
+POST <<Upload Operation Name>>
+    [Documentation]    Sends a multipart file upload and returns the response.
+    [Arguments]    ${<<path_param>>}    ${file_path}    ${headers}=${EMPTY}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    Get <<Api Name>> Session
+
+    &{file_data}=    Get File For Streaming Upload    ${file_path}
+    &{files}=    Create Dictionary    file=&{file_data}
+
+    ${response}=    POST On Session
+    ...    <<api_name>>_session
+    ...    ${BASE_URL}${ENDPOINT}/${<<path_param>>}
+    ...    files=${files}    headers=${headers}    expected_status=ANY
+
+    RETURN    ${response}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════

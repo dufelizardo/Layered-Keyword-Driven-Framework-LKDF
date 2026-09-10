@@ -1,0 +1,33 @@
+*** Settings ***
+Library    RequestsLibrary
+Library    Collections
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Comments ***
+    Copy to src/pom/common/<<api_name>>_common.resource. One of these per example/API — every operation's
+    POM imports this file rather than calling `Create Session` itself.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Variables ***
+${HOST_URL}      <<https://api.example.com>>
+${BASE_URL}      <</api/v1>>
+${AUTH_TOKEN}    %{<<ENV_VAR_NAME>>=}
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Keywords ***
+Get <<Api Name>> Session
+    [Documentation]    Creates (or reuses) the shared RequestsLibrary session for the <<Api Name>> API.
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    Create Session    <<api_name>>_session    ${HOST_URL}    verify=False
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+Get <<Api Name>> Auth Headers
+    [Documentation]    Builds the Authorization header dict from the ${AUTH_TOKEN} environment variable.
+    ...    Delete this keyword entirely if the API needs no authentication.
+    [Arguments]    ${content_type}=application/json
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    ${headers}=    Create Dictionary
+    ...    Authorization=Bearer ${AUTH_TOKEN}
+    ...    Content-Type=${content_type}
+
+    RETURN    ${headers}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════

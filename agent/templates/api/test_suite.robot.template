@@ -1,0 +1,36 @@
+*** Settings ***
+Resource    ../../../src/scenario/<<resource-group>>/<<operation>>/<<operation>>_scenario.resource
+Resource    ../../../src/resource/config/driven/data_driven.resource
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Comments ***
+    TEST SUITE TEMPLATE — API. Copy to test/<<resource-group>>/<<operation>>/<<US-0NN>>.robot. <<US-0NN>>
+    is the next number in the project's global suite-ID sequence (`agent/IMPLEMENTATION.md` Step 1) —
+    do not restart numbering per example. Data only below: no IF, no assertion, ever.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+Metadata    Test Suite - <<US-0NN>>
+Metadata    Test Suite Description        This test suite validates the <<operation description>>.
+Metadata    Test Suite Owner              <<owner name>>
+Metadata    Test Suite Version            1.0
+Metadata    Test Suite Tags               <<HTTP METHOD>>    <<OperationName>>    <<US-0NN>>
+Metadata    Test Suite Created On         <<YYYY-MM-DD>>
+Metadata    Test Suite Last Modified      XXXX-XX-XX
+Metadata    Project                       <<project name>>
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Test Cases ***
+CT-001 - <<US-0NN>>: Validate <<Operation Name>> - Success
+    [Documentation]    Test case to validate <<operation description>> with a valid request.
+    [Tags]    <<HTTP METHOD>>    <<OperationName>>    Success
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    <<RESOURCE>> - <<ACTION>>    scenario=success    <<id_param>>=${EMPTY}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+CT-002 - <<US-0NN>>: Validate <<Operation Name>> - Invalid <<Field>>
+    [Documentation]    Test case to validate <<operation description>> with an invalid <<field>>.
+    [Tags]    <<HTTP METHOD>>    <<OperationName>>    Invalid<<Field>>
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    # ${<<operation>>_invalid_<<field>>} is resolved from the data_driven aggregator imported above — it must
+    # trace back to a real constraint (enum/min/max) in the target's own spec, see agent/IMPLEMENTATION.md Step 3.
+    <<RESOURCE>> - <<ACTION>>    scenario=invalid_<<field>>    <<id_param>>=${<<operation>>_invalid_<<field>>}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════

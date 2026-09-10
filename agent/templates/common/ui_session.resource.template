@@ -1,0 +1,28 @@
+*** Settings ***
+Library    SeleniumLibrary
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Comments ***
+    Copy to src/pom/common/<<app_name>>_common.resource. One of these per example/application — every
+    story's POM imports this file rather than opening the browser itself. Swap SeleniumLibrary for
+    whatever UI driver library your project actually uses (Browser library, Playwright, etc.) — only
+    the library/keyword names change, the responsibility (open/close the session, nothing else) doesn't.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Variables ***
+${BASE_URL}    <<https://app.example.com>>
+${BROWSER}     %{BROWSER=chrome}
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Keywords ***
+Open <<App Name>> Browser
+    [Documentation]    Opens the browser and navigates to the application's base URL.
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    Open Browser    ${BASE_URL}    ${BROWSER}
+    Maximize Browser Window
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+Close <<App Name>> Browser
+    [Documentation]    Closes the browser at the end of a test.
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    Close Browser
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════

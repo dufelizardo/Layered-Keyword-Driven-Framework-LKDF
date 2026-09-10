@@ -1,0 +1,24 @@
+*** Settings ***
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Comments ***
+    DATA-DRIVEN VALUES TEMPLATE. Copy to src/resource/data_driven/<<resource-group>>/<<resource-group>>_driven.resource.
+    Holds the negative/boundary values TEST files reference by name. Every value here must trace back to
+    a real constraint (an enum list, a min/max, a required-field rule) in the target's own spec/design —
+    never an arbitrary guess (`agent/IMPLEMENTATION.md` Step 3). Naming convention:
+    ${<<operation>>_<<what's wrong>>} — e.g. ${get_widget_by_id_invalid_id}, ${post_widget_invalid_status}.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Variables ***
+# <<operation>> - <<field>> <<constraint, e.g. "enum is [0, 1, 2]">>
+${<<operation>>_invalid_<<field>>}    <<value outside the constraint>>
+
+# <<operation>> - a well-formed but presumably unassigned id, for a 404-style case
+${<<operation>>_nonexistent_<<id_field>>}    <<value>>
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+# Then add this file to src/resource/config/driven/data_driven.resource (the single aggregator every FLOW/TEST
+# imports — see agent/ARCHITECTURE.md §6 for why this aggregator exists ONLY in Robot Framework, and is dropped
+# entirely in a module-based tool):
+#
+# *** Settings ***
+# # <<RESOURCE GROUP>>
+# Resource    ../../data_driven/<<resource-group>>/<<resource-group>>_driven.resource

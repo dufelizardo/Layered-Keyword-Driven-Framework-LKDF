@@ -1,0 +1,27 @@
+# Known issues found against the live <<target>>
+
+Copy to `<<example directory>>/KNOWN_ISSUES.md`. Only create this file once verification (`agent/IMPLEMENTATION.md` Step 2) actually turns up a real discrepancy between the spec/design and the live system's behavior — an example with no real findings doesn't get this file at all. Every entry below must describe something you personally confirmed with a direct call (`curl` or equivalent), not something inferred from documentation alone.
+
+Every finding below came from a passing, correctly-written test whose assertion caught a real mismatch — not a defect in the test suite itself.
+
+---
+
+## 1. <<One-line summary of the discrepancy>>
+
+- **Suite**: `<<test/resource-group/operation/US-0NN.robot>>`
+- **Spec**: <<what the spec/design says should happen>>
+- **Expected**: <<the behavior the suite's assertion checks for>>
+- **Actual**: <<what the live system actually does instead>>
+- **Repro**:
+  ```
+  <<exact curl command(s) or steps that reproduce it, with the actual response>>
+  ```
+- **Impact**: <<what this means for the suite — e.g. "this suite's Nth test case documents this instead of silently xfail-ing", "the FLOW works around it by doing X instead of asserting the documented contract">>
+
+<<Repeat one numbered section per distinct finding.>>
+
+---
+
+## Reporting upstream
+
+<<If the target has a public issue tracker (a GitHub repo, etc.) and it's appropriate to report: state whether a draft was written (and where) and whether it was actually filed. Never file an issue automatically on the user's behalf — draft it, then ask. If the target is internal/private, say so instead and drop this section.>>

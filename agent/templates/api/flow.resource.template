@@ -1,0 +1,100 @@
+*** Settings ***
+Resource    ../../../pom/<<resource-group>>/<<operation>>/<<operation>>_pom.resource
+Resource    ../../common/schema_validation_flow.resource
+Resource    ../../../resource/config/schema/schema.resource
+Resource    ../../../resource/config/driven/data_driven.resource
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Comments ***
+    FLOW TEMPLATE — API. Copy to src/flow/<<resource-group>>/<<operation>>/<<operation>>_flow.resource.
+    Below are the request-building + assertion patterns you'll actually need — keep the ones matching
+    your operation, delete the rest, then always keep the dispatcher at the bottom (renamed to match).
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Keywords ***
+# ── PATTERN A: simple per-scenario keyword, status + schema assertion ────────────────────────────────────────────────
+GET <<Operation Name>> - Success
+    [Arguments]    ${<<id_param>>}=${EMPTY}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    IF    $<<id_param>> == ''
+        ${<<id_param>>}=    Seed A <<Resource>> For Lookup
+    END
+    ${response}=    GET <<Operation Name>>    ${<<id_param>>}
+    Should Be Equal As Integers    ${response.status_code}    200
+    Validate Object Schema    ${response.json()}    ${<<RESOURCE>>_SCHEMA}
+
+    RETURN    ${response}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+# ── PATTERN B: seed-data — call the create-operation's FLOW instead of hardcoding a fragile id ───────────────────────
+Seed A <<Resource>> For Lookup
+    [Documentation]    Creates a fresh <<resource>> via the Add <<Resource>> flow so this test has a guaranteed
+    ...    valid id to look up, instead of relying on a hardcoded id that could stop existing on a shared server.
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    ${response}=    POST Add <<Resource>> - Success
+    RETURN    ${response.json()['id']}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+# ── PATTERN C: build a valid base payload, override one field for the negative case ──────────────────────────────────
+# This is the standard way to construct a POST/PUT body in this methodology — build one valid, spec-compliant
+# payload once, then use `Set To Dictionary` to mutate exactly the field a given negative case needs to break.
+# Ground every negative value in the spec's own constraints (enum/min/max/required) — see
+# `agent/IMPLEMENTATION.md` Step 3 — never an arbitrary guess.
+Build Valid <<Operation Name>> Payload
+    [Documentation]    A minimal but complete request body, valid against every declared constraint.
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    ${payload}=    Evaluate    {'<<field_1>>': <<valid_value_1>>, '<<field_2>>': '<<valid_value_2>>'}
+
+    RETURN    ${payload}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+POST <<Operation Name>> - Success
+    [Documentation]    A fully valid payload, expects the documented success status.
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    ${headers}=    Get <<Api Name>> Auth Headers
+    ${body}=    Build Valid <<Operation Name>> Payload
+
+    ${response}=    POST <<Operation Name>>    body=${body}    headers=${headers}
+
+    Should Be Equal As Integers    ${response.status_code}    201
+    Validate Object Schema    ${response.json()}    ${<<RESOURCE>>_SCHEMA}
+
+    RETURN    ${response}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+POST <<Operation Name>> - Invalid <<Field>>
+    [Documentation]    <<field>> outside its declared constraint (enum/min/max/type), expects the documented
+    ...    error status. Ground ${<<OPERATION>>_INVALID_<<FIELD>>} in the spec's own constraint, never a guess.
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    ${headers}=    Get <<Api Name>> Auth Headers
+    ${body}=    Build Valid <<Operation Name>> Payload
+    Set To Dictionary    ${body}    <<field_1>>=${<<OPERATION>>_INVALID_<<FIELD>>}
+
+    ${response}=    POST <<Operation Name>>    body=${body}    headers=${headers}
+
+    Should Be Equal As Integers    ${response.status_code}    400
+
+    RETURN    ${response}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+# ── The dispatcher — every operation gets exactly one, this is what SCENARIO calls ───────────────────────────────────
+<<Operation Name>> By Scenario
+    [Documentation]    Dispatches to the FLOW keyword matching ${scenario}. Only implement a scenario here if
+    ...    it has a genuine, data-triggerable, meaningfully differentiable input — see
+    ...    `agent/IMPLEMENTATION.md` Step 3 before adding a case just to round out a set of status codes.
+    [Arguments]    ${scenario}    ${<<id_param>>}=${EMPTY}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    IF    '${scenario}' == 'success'
+        ${response}=    GET <<Operation Name>> - Success    ${<<id_param>>}
+    ELSE IF    '${scenario}' == 'invalid_<<field>>'
+        ${response}=    POST <<Operation Name>> - Invalid <<Field>>
+    ELSE
+        Fail    Unknown scenario: ${scenario}
+    END
+
+    RETURN    ${response}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════

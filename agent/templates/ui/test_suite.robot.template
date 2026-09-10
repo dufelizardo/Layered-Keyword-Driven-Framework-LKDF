@@ -1,0 +1,38 @@
+*** Settings ***
+Resource    ../../../src/scenario/<<story-group>>/<<story>>/<<story>>_scenario.resource
+Library     <<UI driver library>>    # e.g. SeleniumLibrary — needed here only if a suite-level Setup/Teardown opens/closes the browser
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Comments ***
+    TEST SUITE TEMPLATE — UI. Copy to test/<<story-group>>/<<story>>/<<US-0NN>>.robot. Same shape as the
+    API test suite template — Metadata block, CT/US naming, data only. If every test needs the browser
+    open/closed around it, use Suite Setup/Teardown calling the common resource's Open/Close keywords —
+    that's still data-provider-level wiring, not control flow, so it stays allowed in TEST.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+Suite Setup       Open <<App Name>> Browser
+Suite Teardown    Close <<App Name>> Browser
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+Metadata    Test Suite - <<US-0NN>>
+Metadata    Test Suite Description        This test suite validates the <<story description>>.
+Metadata    Test Suite Owner              <<owner name>>
+Metadata    Test Suite Version            1.0
+Metadata    Test Suite Tags               UI    <<StoryName>>    <<US-0NN>>
+Metadata    Test Suite Created On         <<YYYY-MM-DD>>
+Metadata    Test Suite Last Modified      XXXX-XX-XX
+Metadata    Project                       <<project name>>
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Test Cases ***
+CT-001 - <<US-0NN>>: Validate <<Story>> - Success
+    [Documentation]    Test case to validate <<story description>> with valid input.
+    [Tags]    UI    <<StoryName>>    Success
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    <<STORY>> - <<ACTION>>    scenario=success
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+CT-002 - <<US-0NN>>: Validate <<Story>> - Invalid <<Field>>
+    [Documentation]    Test case to validate <<story description>> with an invalid <<field>>.
+    [Tags]    UI    <<StoryName>>    Invalid<<Field>>
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    <<STORY>> - <<ACTION>>    scenario=invalid_<<field>>
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════

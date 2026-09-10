@@ -1,0 +1,19 @@
+*** Settings ***
+Resource    ../../../flow/<<resource-group>>/<<operation>>/<<operation>>_flow.resource
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Comments ***
+    SCENARIO TEMPLATE — API. Copy to src/scenario/<<resource-group>>/<<operation>>/<<operation>>_scenario.resource.
+    One keyword, one line, always. If you're tempted to add anything else here, it belongs in FLOW.
+    Name it so it CANNOT normalize to the same name as the POM keyword it eventually reaches
+    (`agent/ARCHITECTURE.md` §3) — e.g. `<<RESOURCE>> - <<ACTION>>` here vs. `<<Verb>> <<Operation Name>>` in POM.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+*** Keywords ***
+<<RESOURCE>> - <<ACTION>>
+    [Documentation]    Pure pass-through to the FLOW dispatcher. Zero logic.
+    [Arguments]    ${scenario}    ${<<id_param>>}=${EMPTY}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+    ${response}=    <<Operation Name>> By Scenario    scenario=${scenario}    <<id_param>>=${<<id_param>>}
+
+    RETURN    ${response}
+    # ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
